@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionV2Example", "AzureFunctionV2Example.csproj", "{4CD143EC-3A74-44DA-9C4E-965D0C409819}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionV2Example", "AzureFunctionV2Example.csproj", "{4CD143EC-3A74-44DA-9C4E-965D0C409819}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

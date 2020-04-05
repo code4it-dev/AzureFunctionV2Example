@@ -1,32 +1,30 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace AzureFunctionV2Example
 {
-    public static class AzureFunctionV2
+    public class AzureFunctionV2
     {
+        private readonly IGreetingsService _greetingsService;
+
+        public AzureFunctionV2(IGreetingsService greetingsService)
+        {
+            _greetingsService = greetingsService;
+        }
+
         [FunctionName("SayHello")]
-        public static async Task<IActionResult> Run(
+        public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
-
             string name = req.Query["name"];
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
-
-            return name != null
-                ? (ActionResult)new OkObjectResult($"Hello, {name}")
+            return !string.IsNullOrWhiteSpace(name)
+                ? (ActionResult)new OkObjectResult(_greetingsService.SayHi(name))
                 : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
         }
     }
